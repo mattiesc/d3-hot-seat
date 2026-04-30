@@ -1181,19 +1181,24 @@ function gradeAnswer() {
     : Object.values(current.facts || {}).flat().join(" ");
   const targetTerms = keywordSet(targetText);
   const answerTerms = keywordSet(answer);
-  const matched = [...targetTerms].filter(term => answerTerms.has(term));
+  const targetNorm = normalizeForGrade(targetText);
+  const answerNorm = normalizeForGrade(answer);
+  const matched = [...targetTerms].filter(term => termMatches(term, answerTerms, answerNorm));
+  const relatedHits = relatedConceptHits(targetNorm, answerNorm);
   const coverage = targetTerms.size ? matched.length / targetTerms.size : 0;
   const hasConsequence = /\b(because|therefore|so|which|result|results|leads|contributes|helps|supports|explains|due to|as a result|meaning)\b/i.test(answer);
   const hasSpecific = /\b[A-Z][a-z]+(?:[- ][A-Z][a-z]+)?\b/.test(answer) || /\d/.test(answer);
   const enough = answer.split(/\s+/).length >= (mode === "facts" ? 5 : 18);
+  const relevantExtra = relatedHits.length >= 2 || (mode === "facts" && hasSpecific && hasConsequence && answerTerms.size >= 8);
 
   let score = 0;
-  if (coverage >= 0.2 || enough) score += 1;
-  if (coverage >= 0.38 && hasSpecific) score += 1;
-  if (coverage >= 0.55 && hasConsequence) score += 1;
+  if (coverage >= 0.16 || enough || relatedHits.length >= 1) score += 1;
+  if ((coverage >= 0.34 && hasSpecific) || relevantExtra) score += 1;
+  if ((coverage >= 0.5 && hasConsequence) || (coverage >= 0.34 && hasConsequence && relatedHits.length >= 2)) score += 1;
 
   const notes = [];
-  if (coverage < 0.38) notes.push("Too many target terms are missing. You may know the area, but this answer would leak easy marks.");
+  if (coverage < 0.34 && !relevantExtra) notes.push("Too many target terms are missing. You may know the area, but this answer would leak easy marks.");
+  if (coverage < 0.34 && relevantExtra) notes.push("Relevant knowledge, but it missed the exact tested angle. Add the target climate/style phrase after your good context.");
   if (!hasConsequence) notes.push("Add a cause-and-effect link. D3 rewards why it matters, not just naming the fact.");
   if (!hasSpecific) notes.push("Add a specific place, grape, soil, producer, law, number or technique.");
   if (!enough && mode !== "facts") notes.push("This is too thin for a theory-style drill. Build one complete Fact -> Reason -> Consequence chain.");
@@ -1205,6 +1210,7 @@ function gradeAnswer() {
     <p>${gradeLabel(score)}</p>
     <ul>${notes.map(note => `<li>${note}</li>`).join("")}</ul>
     <p><strong>Matched terms:</strong> ${matched.slice(0, 8).join(", ") || "none yet"}</p>
+    ${relatedHits.length ? `<p><strong>Related credit:</strong> ${relatedHits.slice(0, 6).join(", ")}</p>` : ""}
   `;
   panel.classList.remove("hidden");
 }
@@ -1212,13 +1218,72 @@ function gradeAnswer() {
 function keywordSet(text) {
   const stop = new Set(["the", "and", "for", "with", "that", "this", "from", "into", "wine", "wines", "style", "styles", "important", "quality", "region", "regions", "key", "can", "are", "has", "have", "its", "but", "not", "one", "two", "three"]);
   return new Set(
-    text
-      .toLowerCase()
-      .replace(/[^a-z0-9 -]/g, " ")
+    normalizeForGrade(text)
       .split(/\s+/)
       .filter(word => word.length > 3 && !stop.has(word))
       .slice(0, 26)
   );
+}
+
+function normalizeForGrade(text) {
+  return text
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/\bcot\b/g, "malbec")
+    .replace(/\bcabernet sauvignon\b/g, "cabernet")
+    .replace(/\bsauvignon blanc\b/g, "sauvignon")
+    .replace(/\bpinot noir\b/g, "pinot")
+    .replace(/\bchenin blanc\b/g, "chenin")
+    .replace(/\bmouvedre\b/g, "mourvedre")
+    .replace(/\bmourvedre\b/g, "mourvedre")
+    .replace(/\brose\b/g, "rose")
+    .replace(/\broses\b/g, "rose")
+    .replace(/\bargentinian\b/g, "argentina")
+    .replace(/\bargentine\b/g, "argentina")
+    .replace(/\bmediterranean\b/g, "warm dry")
+    .replace(/[^a-z0-9 -]/g, " ");
+}
+
+function termMatches(term, answerTerms, answerNorm) {
+  if (answerTerms.has(term) || answerNorm.includes(term)) return true;
+  return [...answerTerms].some(candidate => editDistance(term, candidate) <= typoAllowance(term));
+}
+
+function typoAllowance(term) {
+  if (term.length >= 9) return 2;
+  if (term.length >= 6) return 1;
+  return 0;
+}
+
+function editDistance(a, b) {
+  if (Math.abs(a.length - b.length) > 2) return 3;
+  const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  for (let i = 0; i <= a.length; i++) dp[i][0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0][j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+      dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+    }
+  }
+  return dp[a.length][b.length];
+}
+
+function relatedConceptHits(targetNorm, answerNorm) {
+  const groups = [
+    ["malbec", ["malbec", "cot", "cahors", "mendoza", "argentina"]],
+    ["warm/dry climate", ["warm", "warmer", "dry", "drier", "south france", "mediterranean", "ripen", "ripe"]],
+    ["structured reds", ["structured", "tannin", "tannins", "dark", "deep", "age", "ageing", "ageability"]],
+    ["commercial/history", ["phylloxera", "history", "known", "market", "original", "home", "flourished"]],
+    ["producer evidence", ["tempier", "terrebrune", "producer", "producers", "domaine"]],
+    ["site/soil/climate", ["soil", "soils", "altitude", "slope", "climate", "maritime", "continental", "gravel", "clay", "limestone", "slate", "schist"]],
+    ["law/category", ["aoc", "doc", "docg", "vqa", "vdp", "pradikat", "classification", "regulation"]],
+    ["winemaking", ["oak", "lees", "maceration", "fermentation", "maturation", "appassimento", "botrytis"]]
+  ];
+  return groups
+    .filter(([label, terms]) => terms.some(term => targetNorm.includes(term)) && terms.some(term => answerNorm.includes(term)))
+    .map(([label]) => label);
 }
 
 function gradeLabel(score) {
