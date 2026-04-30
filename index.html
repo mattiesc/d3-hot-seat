@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#17211f">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="D3 Hot Seat">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>D3 Hot Seat</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <div>
+          <p class="eyebrow">WSET Diploma D3</p>
+          <h1>D3 Hot Seat</h1>
+        </div>
+        <div class="exam-clock">
+          <span id="daysLeft">12</span>
+          <small>days to May 12</small>
+        </div>
+      </header>
+
+      <section class="dashboard">
+        <div class="today-panel">
+          <div class="panel-head">
+            <div>
+              <p class="eyebrow">Today</p>
+              <h2 id="dailyTitle">Loading drill</h2>
+            </div>
+            <button class="icon-button" id="newDaily" title="Pick another daily region" aria-label="Pick another daily region">R</button>
+          </div>
+          <p id="dailyWhy" class="muted"></p>
+          <div class="focus-grid" id="dailyFocus"></div>
+        </div>
+
+        <aside class="score-panel">
+          <p class="eyebrow">Strict Mode</p>
+          <h2>Examiner Score</h2>
+          <div class="score-row">
+            <button data-score="0">0</button>
+            <button data-score="1">1</button>
+            <button data-score="2">2</button>
+            <button data-score="3">3</button>
+          </div>
+          <p class="muted">0 blank, 1 vague, 2 sound, 3 D3-ready with examples and consequences.</p>
+          <div class="stats">
+            <span><strong id="drillsDone">0</strong> reps</span>
+            <span><strong id="avgScore">-</strong> avg</span>
+          </div>
+        </aside>
+      </section>
+
+      <section class="install-panel">
+        <div>
+          <p class="eyebrow">Phone Setup</p>
+          <h2>Installable once hosted</h2>
+          <p class="muted">Open the web address on your phone, then add it to your home screen. Browser alerts below work while the app is open; scheduled reminders are better handled by Codex.</p>
+        </div>
+        <div class="install-actions">
+          <button id="installBtn" class="secondary">Install</button>
+          <button id="notifyBtn" class="secondary">Enable Alerts</button>
+        </div>
+      </section>
+
+      <section class="workbench">
+        <nav class="tabs" aria-label="Study modes">
+          <button class="active" data-mode="region">Region Drill</button>
+          <button data-mode="variety">Variety Drill</button>
+          <button data-mode="question">Past Question</button>
+          <button data-mode="speed">Speed Round</button>
+        </nav>
+
+        <section class="drill-card" id="drillCard">
+          <div class="card-head">
+            <div>
+              <p class="eyebrow" id="modeLabel">Region Drill</p>
+              <h2 id="promptTitle">Loire Valley</h2>
+            </div>
+            <button id="nextPrompt">Next</button>
+          </div>
+
+          <div class="prompt-box">
+            <p id="promptText"></p>
+          </div>
+
+          <label for="answerBox" class="answer-label">Brain dump before revealing</label>
+          <textarea id="answerBox" spellcheck="false" placeholder="Type what you know: climate, soils, hazards, varieties, appellations, winemaking, business, producers, and consequences."></textarea>
+
+          <div class="actions">
+            <button id="revealBtn">Reveal Checklist</button>
+            <button id="clearBtn" class="secondary">Clear</button>
+            <button id="copyBtn" class="secondary">Copy Answer</button>
+          </div>
+
+          <section id="checklist" class="checklist hidden" aria-live="polite"></section>
+        </section>
+      </section>
+
+      <section class="review-strip">
+        <article>
+          <p class="eyebrow">Rule</p>
+          <h3>Fact -> Reason -> Consequence</h3>
+          <p>Every useful point needs a cause and an exam-relevant outcome. Climate facts alone are not enough.</p>
+        </article>
+        <article>
+          <p class="eyebrow">Trap</p>
+          <h3>Business Marks</h3>
+          <p>Commercial sections often carry 20-40 percent. Selling points, price, route to market, reputation, and confusion matter.</p>
+        </article>
+        <article>
+          <p class="eyebrow">Output</p>
+          <h3>Timed Practice</h3>
+          <p>Use this for recall reps, then send me one full answer for full examiner-mode grading.</p>
+        </article>
+      </section>
+    </main>
+
+    <script src="app.js"></script>
+  </body>
+</html>
