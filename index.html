@@ -72,6 +72,7 @@
           <button data-mode="variety">Variety Drill</button>
           <button data-mode="question">Past Question</button>
           <button data-mode="speed">Speed Round</button>
+          <button data-mode="facts">Daily Facts</button>
         </nav>
 
         <section class="drill-card" id="drillCard">
@@ -92,10 +93,12 @@
 
           <div class="actions">
             <button id="revealBtn">Reveal Answer</button>
+            <button id="gradeBtn">Grade Answer</button>
             <button id="clearBtn" class="secondary">Clear</button>
             <button id="copyBtn" class="secondary">Copy Answer</button>
           </div>
 
+          <section id="gradePanel" class="grade-panel hidden" aria-live="polite"></section>
           <section id="checklist" class="checklist hidden" aria-live="polite"></section>
         </section>
       </section>
