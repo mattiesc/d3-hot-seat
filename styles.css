@@ -269,6 +269,22 @@ h3 {
   line-height: 1.45;
 }
 
+.micro-meta {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 12px;
+}
+
+.micro-meta span {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--soft);
+  padding: 5px 9px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
 .answer-label {
   display: block;
   margin-bottom: 8px;
@@ -311,6 +327,10 @@ button.secondary {
   border-radius: 8px;
   padding: 14px;
   background: #fcfcfa;
+}
+
+.check-section.full-width {
+  grid-column: 1 / -1;
 }
 
 .check-section ul {

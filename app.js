@@ -563,6 +563,209 @@ const speedPrompts = [
   "Give one climate hazard in Chablis, Mosel and Central Otago."
 ];
 
+const recallCards = [
+  {
+    title: "Pays Nantais",
+    region: "Loire Valley",
+    field: "Climate",
+    prompt: "Pays Nantais: what is the climate, and what are the main hazards?",
+    answer: "Cool maritime, strongly influenced by the Atlantic. Key hazards include spring frost and rain during flowering and harvest.",
+    examinerLink: "This explains why Muscadet is light-bodied and high acid, and why disease pressure and yield/quality variation matter commercially."
+  },
+  {
+    title: "Pays Nantais",
+    region: "Loire Valley",
+    field: "Soil and Site",
+    prompt: "Pays Nantais / Muscadet: what soil or site detail would you use in an exam answer?",
+    answer: "Predominantly well-drained soils, with important local rocks including granite, gneiss and schist in named crus communaux.",
+    examinerLink: "Do not just name rocks: link free drainage and low fertility to more concentrated Melon Blanc, especially for higher-quality cru wines."
+  },
+  {
+    title: "Muscadet Sevre et Maine",
+    region: "Loire Valley",
+    field: "Winemaking",
+    prompt: "Muscadet Sevre et Maine sur lie: what is the key winemaking technique and why does it matter?",
+    answer: "Sur lie ageing: wine remains on fine lees over winter and is bottled from lees, adding texture, slight creaminess and sometimes subtle breadiness.",
+    examinerLink: "The consequence is crucial: it gives body and interest to a naturally neutral, high-acid, light-bodied Melon Blanc wine."
+  },
+  {
+    title: "Coteaux du Layon",
+    region: "Loire Valley",
+    field: "Production",
+    prompt: "Coteaux du Layon: what are the grape, style and production logic?",
+    answer: "Chenin Blanc sweet wine, often using botrytis and/or passerillage, enabled by autumn mists and dry periods along the Layon tributary.",
+    examinerLink: "High acidity balances sweetness; selective picking and low yields raise cost, while sweet-wine demand is a marketplace challenge."
+  },
+  {
+    title: "Chinon / Bourgueil",
+    region: "Loire Valley",
+    field: "Grape and Style",
+    prompt: "Chinon or Bourgueil: main grape, style range, and one climate/soil link?",
+    answer: "Cabernet Franc. Styles range from light, fresh, early-drinking reds to more structured wines from warmer slopes and better-drained tuffeau or gravel sites.",
+    examinerLink: "Link site warmth and drainage to riper Cabernet Franc, lower green character and greater structure."
+  },
+  {
+    title: "Sancerre / Pouilly-Fume",
+    region: "Loire Valley",
+    field: "Soil",
+    prompt: "Central Vineyards: name the three classic soil types and what they can contribute.",
+    answer: "Silex/flint, terres blanches clay-limestone, and caillottes/stony limestone. They are used to explain stylistic variation in Sauvignon Blanc.",
+    examinerLink: "Specific soil examples lift an answer above generic Sauvignon Blanc notes; connect them to drainage, ripeness, structure or aromatic expression."
+  },
+  {
+    title: "Loire Valley",
+    region: "Loire Valley",
+    field: "Producer Evidence",
+    prompt: "Loire producer check: name one producer each for Vouvray, Sancerre and Chinon.",
+    answer: "Examples: Domaine Huet for Vouvray, Alphonse Mellot or Vacheron for Sancerre, and Charles Joguet or Bernard Baudry for Chinon.",
+    examinerLink: "Producer names are not decoration; they prove real-world command and help anchor broad regional answers."
+  },
+  {
+    title: "Barolo",
+    region: "Piedmont",
+    field: "Grape",
+    prompt: "Barolo: what are the key vine characteristics of Nebbiolo?",
+    answer: "Early budding, late ripening, high acidity, high tannin, pale colour, site-sensitive and vulnerable to autumn rain.",
+    examinerLink: "These traits explain the need for warm south-facing Langhe slopes and the long-lived, structured style."
+  },
+  {
+    title: "Langhe",
+    region: "Piedmont",
+    field: "Soil and Site",
+    prompt: "Langhe Nebbiolo sites: what slope and soil details should you recall?",
+    answer: "Hilly sites with prized south-facing exposures; calcareous marl, clay, sand and limestone are important, with Langhe calcareous marl especially associated with Nebbiolo.",
+    examinerLink: "The exam point is not geology trivia: exposure and marl help Nebbiolo achieve full ripeness while retaining structure and acidity."
+  },
+  {
+    title: "Chianti Classico",
+    region: "Tuscany",
+    field: "Soil",
+    prompt: "Chianti Classico: name two important soils and why they matter.",
+    answer: "Galestro, a friable schistous marl, and albarese, a limestone-rich soil. They are associated with drainage, lower vigour and structured Sangiovese.",
+    examinerLink: "Tie low fertility and drainage to concentration, tannin, acidity and premium positioning."
+  },
+  {
+    title: "Brunello di Montalcino",
+    region: "Tuscany",
+    field: "Law and Style",
+    prompt: "Brunello: what grape and legal/style facts are essential?",
+    answer: "100 percent Sangiovese. It requires extended ageing before release and produces structured, age-worthy premium red wines.",
+    examinerLink: "Long ageing supports reputation and price but creates cash-flow and stock-holding costs for producers."
+  },
+  {
+    title: "Tuscany",
+    region: "Tuscany",
+    field: "Producer Evidence",
+    prompt: "Tuscany producer check: give one producer for Brunello, Chianti Classico and Bolgheri.",
+    answer: "Examples: Biondi-Santi or Poggio di Sotto for Brunello, Fontodi or Isole e Olena for Chianti Classico, and Sassicaia or Ornellaia for Bolgheri.",
+    examinerLink: "This lets you make a generic Tuscany point exam-specific: tradition, appellation identity and international-market premium brands."
+  },
+  {
+    title: "Mosel",
+    region: "Germany",
+    field: "Climate and Site",
+    prompt: "Mosel Riesling: why do steep slate slopes matter?",
+    answer: "The Mosel is cool continental and marginal; steep south-facing slate slopes maximise sunlight, improve drainage and retain/radiate heat.",
+    examinerLink: "This is the direct cause of Riesling ripeness at low potential alcohol while retaining very high acidity."
+  },
+  {
+    title: "VDP",
+    region: "Germany",
+    field: "Wine Law",
+    prompt: "VDP: what problem does it try to solve?",
+    answer: "It gives a clearer quality/site hierarchy, including Gutswein, Ortswein, Erste Lage and Grosse Lage/Grosses Gewachs, especially for dry wines.",
+    examinerLink: "It helps address consumer confusion caused by Pradikat terms being based on must weight rather than finished sweetness or site quality."
+  },
+  {
+    title: "Germany",
+    region: "Germany",
+    field: "Producer Evidence",
+    prompt: "Germany producer check: name one Mosel producer, one Nahe producer and one Baden/Pfalz producer.",
+    answer: "Examples: Dr Loosen, JJ Prum or Egon Muller for Mosel; Donnhoff for Nahe; Bassermann-Jordan or Muller-Catoir for Pfalz; Bernhard Huber for Baden.",
+    examinerLink: "Producer evidence helps turn a strengths/weaknesses answer from abstract to credible."
+  },
+  {
+    title: "Ribera del Duero",
+    region: "Spain",
+    field: "Climate",
+    prompt: "Ribera del Duero: climate and altitude?",
+    answer: "Extreme continental climate on the high Meseta, often around 700-1000m, with hot days, cold nights, frost risk and a short growing season.",
+    examinerLink: "Diurnal range preserves acidity and aroma while daytime warmth ripens Tempranillo, giving powerful but balanced premium reds."
+  },
+  {
+    title: "Priorat",
+    region: "Spain",
+    field: "Soil",
+    prompt: "Priorat: what is llicorella and why is it exam-useful?",
+    answer: "Llicorella is poor, fractured slate. It drains quickly, forces deep rooting and restricts yields.",
+    examinerLink: "Consequence: low yields and water stress contribute to concentration, high price and premium positioning."
+  },
+  {
+    title: "Rias Baixas",
+    region: "Spain",
+    field: "Climate and Training",
+    prompt: "Rias Baixas: climate, hazard and training response?",
+    answer: "Cool, wet Atlantic climate with high humidity and fungal disease pressure. Pergola training improves air flow and keeps fruit away from damp ground.",
+    examinerLink: "This explains why Albarino can retain high acidity but needs careful canopy and disease management."
+  },
+  {
+    title: "Coonawarra",
+    region: "South Australia",
+    field: "Soil",
+    prompt: "Coonawarra Cabernet: what is the famous soil and why does it matter?",
+    answer: "Terra rossa over limestone. It has good drainage and can moderate vigour, helping produce concentrated Cabernet Sauvignon.",
+    examinerLink: "Link the soil to Cabernet structure, regional reputation and premium pricing, not just to a colour name."
+  },
+  {
+    title: "South Australia",
+    region: "South Australia",
+    field: "Producer Evidence",
+    prompt: "South Australia producer check: name one producer for Barossa/Eden, Clare and Coonawarra.",
+    answer: "Examples: Penfolds, Henschke or Torbreck for Barossa/Eden; Grosset or Jim Barry for Clare; Wynns or Balnaves for Coonawarra.",
+    examinerLink: "Use these to support points about old vines, Riesling quality, Cabernet reputation and premium Australian positioning."
+  },
+  {
+    title: "Clare Valley",
+    region: "South Australia",
+    field: "Climate and Style",
+    prompt: "Clare Valley Riesling: what climate features explain the style?",
+    answer: "Warm days, cool nights, altitude and diurnal range help ripen grapes while preserving high acidity.",
+    examinerLink: "This supports dry, high-acid, citrus-driven Riesling that can age despite coming from a warm country."
+  },
+  {
+    title: "Marlborough",
+    region: "New Zealand",
+    field: "Commercial",
+    prompt: "Marlborough: give one strength and one weakness.",
+    answer: "Strength: globally recognised Sauvignon Blanc brand with consistent export demand. Weakness: over-reliance on one grape/style and risk of commoditisation.",
+    examinerLink: "This is exactly the kind of commercial evaluation examiners reward in strengths/weaknesses questions."
+  },
+  {
+    title: "Central Otago",
+    region: "New Zealand",
+    field: "Climate",
+    prompt: "Central Otago Pinot Noir: climate and hazard?",
+    answer: "Semi-continental, dry, sunny and cool, with marked diurnal range. Frost is a major hazard.",
+    examinerLink: "Dry conditions reduce disease and support organic/biodynamic production; frost and low yields support premium costs."
+  },
+  {
+    title: "Stellenbosch",
+    region: "South Africa",
+    field: "Style",
+    prompt: "Stellenbosch: what styles and site factors should you recall?",
+    answer: "Cabernet Sauvignon, Bordeaux blends and Chenin Blanc. Varied slopes, aspects and soils allow quality differentiation.",
+    examinerLink: "Use Stellenbosch as evidence for South Africa's premium potential and regional diversity."
+  },
+  {
+    title: "Walker Bay",
+    region: "South Africa",
+    field: "Climate and Grapes",
+    prompt: "Walker Bay: climate and key grapes?",
+    answer: "Cooler maritime area influenced by the ocean, suited to Pinot Noir and Chardonnay.",
+    examinerLink: "This broadens a South Africa answer beyond warm-climate reds and Chenin, showing stylistic diversity."
+  }
+];
+
 let mode = "region";
 let current = regions[0];
 let installPrompt = null;
@@ -611,7 +814,7 @@ function renderDaily(item) {
 }
 
 function dataForMode() {
-  if (mode === "region") return regions;
+  if (mode === "region") return recallCards;
   if (mode === "variety") return varieties;
   if (mode === "question") return questions;
   return speedPrompts.map((prompt, index) => ({
@@ -632,7 +835,10 @@ function renderPrompt(item) {
   current = item;
   document.getElementById("modeLabel").textContent = modeLabel();
   document.getElementById("promptTitle").textContent = item.title;
-  document.getElementById("promptText").textContent = item.prompt;
+  const meta = item.region
+    ? `<div class="micro-meta"><span>${item.region}</span><span>${item.field}</span></div>`
+    : "";
+  document.getElementById("promptText").innerHTML = `${meta}${item.prompt}`;
   document.getElementById("answerBox").value = "";
   document.getElementById("checklist").classList.add("hidden");
   document.querySelectorAll(".score-row button").forEach(button => button.classList.remove("selected"));
@@ -647,14 +853,27 @@ function modeLabel() {
 
 function revealChecklist() {
   const checklist = document.getElementById("checklist");
-  checklist.innerHTML = Object.entries(current.facts)
-    .map(([heading, points]) => `
-      <div class="check-section">
-        <h3>${heading}</h3>
-        <ul>${points.map(point => `<li>${point}</li>`).join("")}</ul>
+  if (current.answer) {
+    checklist.innerHTML = `
+      <div class="check-section full-width">
+        <h3>Answer</h3>
+        <p>${current.answer}</p>
       </div>
-    `)
-    .join("");
+      <div class="check-section full-width">
+        <h3>Examiner Link</h3>
+        <p>${current.examinerLink}</p>
+      </div>
+    `;
+  } else {
+    checklist.innerHTML = Object.entries(current.facts)
+      .map(([heading, points]) => `
+        <div class="check-section">
+          <h3>${heading}</h3>
+          <ul>${points.map(point => `<li>${point}</li>`).join("")}</ul>
+        </div>
+      `)
+      .join("");
+  }
   checklist.classList.remove("hidden");
 }
 
